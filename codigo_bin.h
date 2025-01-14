@@ -8,9 +8,9 @@ extern int cont_R;
 
 void bits_padrao(int* vetor);
 
-void conversor_L_code(int *code, int num, int *cont_L);
+void conversor_R_code(int* codigo, int num);
 
-void conversor_R_code(int *code, int num, int *cont_R);
+void conversor_L_code(int* codigo, int num);
 
 int* converter_binario_base10(char** matriz_recebida);
 

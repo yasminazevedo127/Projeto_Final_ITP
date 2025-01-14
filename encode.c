@@ -18,7 +18,7 @@ int main(void){
     int codigo_int[8];  // Vetor para armazenar os dígitos do código EAN-8 em formato numérico
     int* codigo_ean = calloc(67, sizeof(int));  // Vetor para armazenar a representação binária do código de barras
     int espaco_lateral, altura_cod, largura_area;  // Variáveis para armazenar o espaçamento lateral, altura e largura do código
-    char name[100];  // Nome do arquivo da imagem (sem extensão)
+    char nome[100];  // Nome do arquivo da imagem (sem extensão)
     char nome_imagem_completa[100];  // Nome completo do arquivo com a extensão ".pbm"
     char resposta_usuario;  // Variável para verificar a resposta do usuário nas entradas personalizadas
     int linhas_img, colunas_img;  // Dimensões da imagem gerada (altura e largura)
@@ -74,8 +74,8 @@ int main(void){
 
             if(resposta_usuario == 's'){
                 printf("Nome da imagem: ");
-                scanf("%s", &name);
-                strcpy(nome_imagem_completa, strcat(name, ".pbm"));  // Adiciona a extensão ".pbm"
+                scanf("%s", &nome);
+                strcpy(nome_imagem_completa, strcat(nome, ".pbm"));  // Adiciona a extensão ".pbm"
             } else {
                 strcpy(nome_imagem_completa, NOME_IMAGEM_PADRAO);  // Valor padrão para o nome do arquivo
             }
@@ -90,9 +90,9 @@ int main(void){
             // Converte cada dígito do código EAN-8 para sua representação binária, dividindo em dois grupos (L e R)
             for(int i = 0; i < 8; ++i){
                 if(i < 4){
-                    conversor_L_code(codigo_ean, codigo_int[i], &cont_L);  // Converte os primeiros 4 dígitos para o código L
+                    conversor_L_code(codigo_ean, codigo_int[i]);  // Converte os primeiros 4 dígitos para o código L
                 } else {
-                    conversor_R_code(codigo_ean, codigo_int[i], &cont_R);  // Converte os últimos 4 dígitos para o código R
+                    conversor_R_code(codigo_ean, codigo_int[i]);  // Converte os últimos 4 dígitos para o código R
                 }
             }
 

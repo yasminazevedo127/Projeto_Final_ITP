@@ -4,6 +4,10 @@
 #include <locale.h>
 #include <stdio.h>
 #include "validar_codigo.h"
+#include "codigo_bin.c"
+#include "codigo_bin.h"
+#include "matriz_final.h"
+#include "matriz_final.c"
 
 int largura, altura;
 

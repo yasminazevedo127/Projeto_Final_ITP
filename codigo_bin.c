@@ -1,40 +1,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "codigo_bin.h"
+#include <string.h>  // Para usar strcspn e strcmp
+
 
 // Variáveis globais para controle dos índices de leitura do código de barras L e R
 int cont_L = INICIO_L;
 int cont_R = INICIO_R;
 
-// Constantes para os padrões de código de barras L e R (representando os padrões binários para os dígitos 0 a 9)
-const int L_CODE[10][7] = {
-    {0, 0, 0, 1, 1, 0, 1}, // 0
-    {0, 0, 1, 1, 0, 0, 1}, // 1
-    {0, 0, 1, 0, 0, 1, 1}, // 2
-    {0, 1, 1, 1, 1, 0, 0}, // 3
-    {0, 1, 0, 0, 0, 1, 1}, // 4
-    {0, 1, 1, 0, 0, 0, 1}, // 5
-    {0, 1, 0, 1, 1, 1, 1}, // 6
-    {0, 1, 1, 1, 0, 1, 1}, // 7
-    {0, 1, 1, 0, 1, 1, 1}, // 8
-    {0, 0, 0, 1, 0, 1, 1}  // 9
-};
+void bits_padrao(int* vetor){
 
-const int R_CODE[10][7] = {
-    {1, 1, 1, 0, 0, 1, 0}, // 0
-    {1, 1, 0, 0, 1, 1, 0}, // 1
-    {1, 1, 0, 1, 1, 0, 0}, // 2
-    {1, 0, 0, 0, 0, 1, 1}, // 3
-    {1, 0, 1, 1, 1, 0, 0}, // 4
-    {1, 0, 0, 1, 1, 1, 0}, // 5
-    {1, 0, 1, 0, 0, 0, 0}, // 6
-    {1, 0, 0, 0, 1, 0, 0}, // 7
-    {1, 0, 0, 1, 0, 0, 0}, // 8
-    {1, 1, 1, 0, 1, 0, 0}  // 9
-};
-
-// Função para preencher os bits padrão do código de barras (L/R), com valores fixos.
-void bits_padrao(int *vetor) {
     vetor[0] = 1;
     vetor[1] = 0;
     vetor[2] = 1;
@@ -46,29 +21,158 @@ void bits_padrao(int *vetor) {
     vetor[64] = 1;
     vetor[65] = 0;
     vetor[66] = 1;
+
+}
+void conversor_L_code(int* codigo, int num){
+
+    if(num == 0){
+        int vetor[] = {0,0,0,1,1,0,1};
+
+        for(int i = cont_L; i < cont_L+7; ++i){
+            codigo[i] = vetor[i-cont_L];
+        }
+        cont_L = cont_L + 7;
+    }
+    if(num == 1){
+        int vetor[] = {0,0,1,1,0,0,1};
+        for(int i = cont_L; i < cont_L+7; ++i){
+            codigo[i] = vetor[i-cont_L];
+        }
+        cont_L = cont_L + 7;
+    }
+    if(num == 2){
+        int vetor[] = {0,0,1,0,0,1,1};
+        for(int i = cont_L; i < cont_L+7; ++i){
+            codigo[i] = vetor[i-cont_L];
+        }
+        cont_L = cont_L + 7;
+    }
+    if(num == 3){
+        int vetor[] = {0,1,1,1,1,0,0};
+        for(int i = cont_L; i < cont_L+7; ++i){
+            codigo[i] = vetor[i-cont_L];
+        }
+        cont_L = cont_L + 7;
+    }
+    if(num == 4){
+        int vetor[] = {0,1,0,0,0,1,1};
+        for(int i = cont_L; i < cont_L+7; ++i){
+            codigo[i] = vetor[i-cont_L];
+        }
+        cont_L = cont_L + 7;
+    }
+    if(num == 5){
+        int vetor[] = {0,1,1,0,0,0,1};
+        for(int i = cont_L; i < cont_L+7; ++i){
+            codigo[i] = vetor[i-cont_L];
+        }
+        cont_L = cont_L + 7;
+    }
+    if(num == 6){
+        int vetor[] = {0,1,0,1,1,1,1};
+        for(int i = cont_L; i < cont_L+7; ++i){
+            codigo[i] = vetor[i-cont_L];
+        }
+        cont_L = cont_L + 7;
+    }
+    if(num == 7){
+        int vetor[] = {0,1,1,1,0,1,1};
+        for(int i = cont_L; i < cont_L+7; ++i){
+            codigo[i] = vetor[i-cont_L];
+        }
+        cont_L = cont_L + 7;
+    }
+    if(num == 8){
+        int vetor[] = {0,1,1,0,1,1,1};
+        for(int i = cont_L; i < cont_L+7; ++i){
+            codigo[i] = vetor[i-cont_L];
+        }
+        cont_L = cont_L + 7;
+    }
+    if(num == 9){
+        int vetor[] = {0,0,0,1,0,1,1};
+        for(int i = cont_L; i < cont_L+7; ++i){
+            codigo[i] = vetor[i-cont_L];
+        }
+        cont_L = cont_L + 7;
+    }
+
 }
 
-// Função genérica para preencher o código com os valores dos padrões L ou R.
-// Recebe o vetor de código, o contador de posição e o padrão a ser copiado.
-void preencherCodigo(int *code, int *count, const int padrao[7]) {
-    for (int i = 0; i < 7; i++) {
-        code[*count + i] = padrao[i]; // Preenche a posição do código com o valor do padrão.
-    }
-    *count += 7; // Atualiza o contador para a próxima posição.
-}
+void conversor_R_code(int* codigo, int num){
 
-// Função para preencher o código de barras utilizando o padrão L (para os 4 primeiros dígitos).
-void conversor_L_code(int *code, int num, int *cont_L) {
-    if (num >= 0 && num <= 9) {
-        preencherCodigo(code, cont_L, L_CODE[num]); // Preenche com o padrão L correspondente.
-    }
-}
+    if(num == 0){
+        int vetor[] = {1,1,1,0,0,1,0};
 
-// Função para preencher o código de barras utilizando o padrão R (para os 4 últimos dígitos).
-void conversor_R_code(int *code, int num, int *cont_R) {
-    if (num >= 0 && num <= 9) {
-        preencherCodigo(code, cont_R, R_CODE[num]); // Preenche com o padrão R correspondente.
+        for(int i = cont_R; i < cont_R+7; ++i){
+            codigo[i] = vetor[i-cont_R];
+        }
+        cont_R = cont_R + 7;
     }
+    if(num == 1){
+        int vetor[] = {1,1,0,0,1,1,0};
+        for(int i = cont_R; i < cont_R+7; ++i){
+            codigo[i] = vetor[i-cont_R];
+        }
+        cont_R = cont_R + 7;
+    }
+    if(num == 2){
+        int vetor[] = {1,1,0,1,1,0,0};
+        for(int i = cont_R; i < cont_R+7; ++i){
+            codigo[i] = vetor[i-cont_R];
+        }
+        cont_R = cont_R + 7;
+    }
+    if(num == 3){
+        int vetor[] = {1,0,0,0,0,1,1};
+        for(int i = cont_R; i < cont_R+7; ++i){
+            codigo[i] = vetor[i-cont_R];
+        }
+        cont_R = cont_R + 7;
+    }
+    if(num == 4){
+        int vetor[] = {1,0,1,1,1,0,0};
+        for(int i = cont_R; i < cont_R+7; ++i){
+            codigo[i] = vetor[i-cont_R];
+        }
+        cont_R = cont_R + 7;
+    }
+    if(num == 5){
+        int vetor[] = {1,0,0,1,1,1,0};
+        for(int i = cont_R; i < cont_R+7; ++i){
+            codigo[i] = vetor[i-cont_R];
+        }
+        cont_R = cont_R + 7;
+    }
+    if(num == 6){
+        int vetor[] = {1,0,1,0,0,0,0};
+        for(int i = cont_R; i < cont_R+7; ++i){
+            codigo[i] = vetor[i-cont_R];
+        }
+        cont_R = cont_R + 7;
+    }
+    if(num == 7){
+        int vetor[] = {1,0,0,0,1,0,0};
+        for(int i = cont_R; i < cont_R+7; ++i){
+            codigo[i] = vetor[i-cont_R];
+        }
+        cont_R = cont_R + 7;
+    }
+    if(num == 8){
+        int vetor[] = {1,0,0,1,0,0,0};
+        for(int i = cont_R; i < cont_R+7; ++i){
+            codigo[i] = vetor[i-cont_R];
+        }
+        cont_R = cont_R + 7;
+    }
+    if(num == 9){
+        int vetor[] = {1,1,1,0,1,0,0};
+        for(int i = cont_R; i < cont_R+7; ++i){
+            codigo[i] = vetor[i-cont_R];
+        }
+        cont_R = cont_R + 7;
+    }
+
 }
 
 // Função para converter os valores binários do código de barras EAN-8 para base 10.

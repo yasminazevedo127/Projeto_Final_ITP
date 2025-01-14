@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
+#include <string.h>
 #include "matriz_final.h"
 #include "validar_codigo.h"
 
